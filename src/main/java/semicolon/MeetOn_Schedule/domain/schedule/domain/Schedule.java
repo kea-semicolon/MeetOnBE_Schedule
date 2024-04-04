@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import semicolon.MeetOn_Schedule.BaseTimeEntity;
-import semicolon.MeetOn_Schedule.domain.schedule.dto.ScheduleDto;
 
 import java.time.LocalDateTime;
 
@@ -40,7 +39,7 @@ public class Schedule extends BaseTimeEntity {
         this.channelId = channelId;
     }
 
-    public static Schedule toSchedule(CreateRequest request, Long channelId) {
+    public static Schedule toSchedule(CreateRequestDto request, Long channelId) {
         return Schedule
                 .builder()
                 .title(request.getTitle())
