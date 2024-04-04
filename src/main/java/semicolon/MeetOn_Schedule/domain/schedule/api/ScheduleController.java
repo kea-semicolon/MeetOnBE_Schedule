@@ -58,4 +58,15 @@ public class ScheduleController {
         scheduleService.updateSchedule(updateRequestDto);
         return ResponseEntity.ok("Ok");
     }
+
+    /**
+     * 공유 일정 삭제
+     * @param scheduleId
+     * @return
+     */
+    @DeleteMapping
+    public ResponseEntity<String> deleteSchedule(@RequestParam Long scheduleId) {
+        scheduleService.deleteSchedule(scheduleId);
+        return ResponseEntity.ok(scheduleId + " 삭제합니다.");
+    }
 }

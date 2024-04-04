@@ -46,8 +46,18 @@ public class ScheduleService {
     @Transactional
     public void updateSchedule(UpdateRequestDto updateRequestDto) {
         Long scheduleId = updateRequestDto.getScheduleId();
-        Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
+        Schedule schedule = findSchedule(scheduleId);
         schedule.updateSchedule(updateRequestDto);
+    }
+
+    @Transactional
+    public void deleteSchedule(Long scheduleId) {
+        Schedule schedule = findSchedule(scheduleId);
+        scheduleRepository.delete(schedule);
+    }
+
+    private Schedule findSchedule(Long id) {
+        return scheduleRepository.findById(id)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
     }
 }
