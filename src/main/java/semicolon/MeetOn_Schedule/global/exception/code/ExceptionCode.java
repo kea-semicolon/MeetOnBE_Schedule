@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ExceptionCode {
+    SCHEDULE_NOT_FOUND(404, "Schedule Not Found"),
     CHANNEL_NOT_FOUND(404, "Channel Not Found"),
     MEMBER_NOT_FOUND(404, "Member Not Found"),
     LOGOUT_MEMBER(404, "Member Already Logout"),

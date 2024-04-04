@@ -41,10 +41,21 @@ public class ScheduleController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<ScheduleResponseListDto<List<ScheduleResponseDto>>> getSchedule(HttpServletRequest request,
-                                                                                          @RequestParam(required = false) Long year,
-                                                                                          @RequestParam(required = false) Long month) {
+    public ResponseEntity<ScheduleResponseListDto<List<ScheduleResponseDto>>> getSchedule(@RequestParam Long year,
+                                                                                          @RequestParam Long month,
+                                                                                          HttpServletRequest request) {
         List<ScheduleResponseDto> scheduleList = scheduleService.getScheduleList(request, year, month);
         return ResponseEntity.ok(new ScheduleResponseListDto<>(scheduleList));
+    }
+
+    /**
+     * 공유 일정 수정(id,title, startTime, endTime)
+     * @param updateRequestDto
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<String> updateSchedule(@RequestBody UpdateRequestDto updateRequestDto) {
+        scheduleService.updateSchedule(updateRequestDto);
+        return ResponseEntity.ok("Ok");
     }
 }

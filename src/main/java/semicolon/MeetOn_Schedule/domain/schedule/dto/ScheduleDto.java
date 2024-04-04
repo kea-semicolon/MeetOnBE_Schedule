@@ -4,18 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
-import semicolon.MeetOn_Schedule.domain.schedule.dao.ScheduleRepository;
 import semicolon.MeetOn_Schedule.domain.schedule.domain.Schedule;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScheduleDto {
 
     @Getter
+    @NoArgsConstructor
     public static class CreateRequestDto {
         private String title;
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -24,10 +21,29 @@ public class ScheduleDto {
         private LocalDateTime endTime;
 
         @Builder
-        public CreateRequestDto(String title, String startTime, String endTime) {
+        public CreateRequestDto(String title, LocalDateTime startTime, LocalDateTime endTime) {
             this.title = title;
-            this.startTime = LocalDateTime.parse(startTime);
-            this.endTime = LocalDateTime.parse(endTime);
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class UpdateRequestDto {
+        private Long scheduleId;
+        private String title;
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime startTime;
+        @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime endTime;
+
+        @Builder
+        public UpdateRequestDto(Long scheduleId, String title, LocalDateTime startTime, LocalDateTime endTime) {
+            this.scheduleId = scheduleId;
+            this.title = title;
+            this.startTime = startTime;
+            this.endTime = endTime;
         }
     }
 
@@ -45,6 +61,7 @@ public class ScheduleDto {
     @Getter
     @NoArgsConstructor
     public static class ScheduleResponseDto {
+        private Long scheduleId;
         private String title;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime startTime;
@@ -52,7 +69,8 @@ public class ScheduleDto {
         private LocalDateTime endTime;
 
         @Builder
-        public ScheduleResponseDto(String title, LocalDateTime startTime, LocalDateTime endTime) {
+        public ScheduleResponseDto(Long scheduleId, String title, LocalDateTime startTime, LocalDateTime endTime) {
+            this.scheduleId = scheduleId;
             this.title = title;
             this.startTime = startTime;
             this.endTime = endTime;
@@ -61,6 +79,7 @@ public class ScheduleDto {
         public static ScheduleResponseDto toScheduleResponseDto(Schedule schedule) {
             return ScheduleResponseDto
                     .builder()
+                    .scheduleId(schedule.getId())
                     .title(schedule.getTitle())
                     .startTime(schedule.getStartTime())
                     .endTime(schedule.getEndTime())

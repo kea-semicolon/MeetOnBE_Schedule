@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import semicolon.MeetOn_Schedule.domain.schedule.dao.ScheduleRepository;
 import semicolon.MeetOn_Schedule.domain.schedule.domain.Schedule;
+import semicolon.MeetOn_Schedule.global.exception.BusinessLogicException;
+import semicolon.MeetOn_Schedule.global.exception.code.ExceptionCode;
 import semicolon.MeetOn_Schedule.global.util.CookieUtil;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
@@ -40,5 +41,13 @@ public class ScheduleService {
                 .stream() // 컬렉션을 스트림으로 변환
                 .map(ScheduleResponseDto::toScheduleResponseDto) // Schedule 객체를 ScheduleResponseDto 객체로 매핑
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateSchedule(UpdateRequestDto updateRequestDto) {
+        Long scheduleId = updateRequestDto.getScheduleId();
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
+        schedule.updateSchedule(updateRequestDto);
     }
 }

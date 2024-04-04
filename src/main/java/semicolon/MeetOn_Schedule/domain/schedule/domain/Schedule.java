@@ -48,4 +48,10 @@ public class Schedule extends BaseTimeEntity {
                 .channelId(channelId)
                 .build();
     }
+
+    public void updateSchedule(UpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.startTime = requestDto.getStartTime();
+        this.endTime = requestDto.getEndTime();
+    }
 }
