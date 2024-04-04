@@ -1,5 +1,6 @@
 package semicolon.MeetOn_Schedule.domain.schedule.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -7,8 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import semicolon.MeetOn_Schedule.BaseTimeEntity;
+import semicolon.MeetOn_Schedule.domain.schedule.dto.ScheduleDto;
 
 import java.time.LocalDateTime;
+
+import static semicolon.MeetOn_Schedule.domain.schedule.dto.ScheduleDto.*;
 
 @Entity
 @Getter
@@ -19,15 +23,30 @@ public class Schedule extends BaseTimeEntity {
 
     private String title;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
+    private Long channelId;
+
     @Builder
-    public Schedule(Long id, String title, LocalDateTime startTime, LocalDateTime endTime) {
+    public Schedule(Long id, String title, LocalDateTime startTime, LocalDateTime endTime, Long channelId) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.channelId = channelId;
+    }
+
+    public static Schedule toSchedule(CreateRequest request, Long channelId) {
+        return Schedule
+                .builder()
+                .title(request.getTitle())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .channelId(channelId)
+                .build();
     }
 }
