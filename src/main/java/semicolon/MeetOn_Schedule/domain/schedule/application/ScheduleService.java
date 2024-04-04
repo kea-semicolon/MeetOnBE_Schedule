@@ -24,16 +24,23 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final CookieUtil cookieUtil;
+    private final ScheduleChannelService scheduleChannelService;
 
     @Transactional
     public void saveSchedule(CreateRequestDto createRequestDto, HttpServletRequest request) {
         Long channelId = Long.valueOf(cookieUtil.getCookieValue("channelId", request));
+        if (!scheduleChannelService.channelExists(channelId, request.getHeader("Authorization"))) {
+            throw new BusinessLogicException(ExceptionCode.CHANNEL_NOT_FOUND);
+        }
         Schedule schedule = Schedule.toSchedule(createRequestDto, channelId);
         scheduleRepository.save(schedule);
     }
 
     public List<ScheduleResponseDto> getScheduleList(HttpServletRequest request, Long year, Long month) {
         Long channelId = Long.valueOf(cookieUtil.getCookieValue("channelId", request));
+        if (!scheduleChannelService.channelExists(channelId, request.getHeader("Authorization"))) {
+            throw new BusinessLogicException(ExceptionCode.CHANNEL_NOT_FOUND);
+        }
         YearMonth yearMonth = YearMonth.of(year.intValue(), month.intValue());
         LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atStartOfDay();
