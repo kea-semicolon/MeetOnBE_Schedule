@@ -27,13 +27,13 @@ public class ScheduleService {
     private final ScheduleChannelService scheduleChannelService;
 
     @Transactional
-    public void saveSchedule(CreateRequestDto createRequestDto, HttpServletRequest request) {
+    public Long saveSchedule(CreateRequestDto createRequestDto, HttpServletRequest request) {
         Long channelId = Long.valueOf(cookieUtil.getCookieValue("channelId", request));
         if (!scheduleChannelService.channelExists(channelId, request.getHeader("Authorization"))) {
             throw new BusinessLogicException(ExceptionCode.CHANNEL_NOT_FOUND);
         }
         Schedule schedule = Schedule.toSchedule(createRequestDto, channelId);
-        scheduleRepository.save(schedule);
+        return scheduleRepository.save(schedule).getId();
     }
 
     public List<ScheduleResponseDto> getScheduleList(HttpServletRequest request, Long year, Long month) {
