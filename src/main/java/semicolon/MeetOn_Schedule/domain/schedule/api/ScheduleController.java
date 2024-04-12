@@ -1,5 +1,7 @@
 package semicolon.MeetOn_Schedule.domain.schedule.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class ScheduleController {
      * @param request
      * @return
      */
+    @Operation(description = "공유 일정 생성")
     @PostMapping
     public ResponseEntity<String> createSchedule(@RequestBody CreateRequestDto createRequestDto,
                                                  HttpServletRequest request) {
@@ -40,6 +43,7 @@ public class ScheduleController {
      * @param month
      * @return
      */
+    @Operation(description = "공유 일정 조회")
     @GetMapping
     public ResponseEntity<ScheduleResponseListDto<List<ScheduleResponseDto>>> getSchedule(@RequestParam Long year,
                                                                                           @RequestParam Long month,
@@ -53,6 +57,7 @@ public class ScheduleController {
      * @param updateRequestDto
      * @return
      */
+    @Operation(description = "공유 일정 수정")
     @PutMapping
     public ResponseEntity<String> updateSchedule(@RequestBody UpdateRequestDto updateRequestDto) {
         scheduleService.updateSchedule(updateRequestDto);
@@ -64,6 +69,7 @@ public class ScheduleController {
      * @param scheduleId
      * @return
      */
+    @Operation(description = "공유 일정 삭제")
     @DeleteMapping
     public ResponseEntity<String> deleteSchedule(@RequestParam Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
