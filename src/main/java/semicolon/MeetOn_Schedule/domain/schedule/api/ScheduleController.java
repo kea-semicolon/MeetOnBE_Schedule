@@ -28,7 +28,7 @@ public class ScheduleController {
      * @param request
      * @return
      */
-    @Operation(description = "공유 일정 생성")
+    @Operation(summary = "공유 일정 생성", description = "공유 일정 생성 + CreateRequestDto")
     @PostMapping
     public ResponseEntity<String> createSchedule(@RequestBody CreateRequestDto createRequestDto,
                                                  HttpServletRequest request) {
@@ -43,7 +43,7 @@ public class ScheduleController {
      * @param month
      * @return
      */
-    @Operation(description = "공유 일정 조회")
+    @Operation(summary = "공유 일정 조회", description = "공유 일정 조회 + year, month")
     @GetMapping
     public ResponseEntity<ScheduleResponseListDto<List<ScheduleResponseDto>>> getSchedule(@RequestParam Long year,
                                                                                           @RequestParam Long month,
@@ -57,7 +57,7 @@ public class ScheduleController {
      * @param updateRequestDto
      * @return
      */
-    @Operation(description = "공유 일정 수정")
+    @Operation(summary = "공유 일정 수정", description = "공유 일정 수정 + UpdateRequestDto")
     @PutMapping
     public ResponseEntity<String> updateSchedule(@RequestBody UpdateRequestDto updateRequestDto) {
         scheduleService.updateSchedule(updateRequestDto);
@@ -69,7 +69,7 @@ public class ScheduleController {
      * @param scheduleId
      * @return
      */
-    @Operation(description = "공유 일정 삭제")
+    @Operation(summary = "공유 일정 삭제", description = "공유 일정 삭제")
     @DeleteMapping
     public ResponseEntity<String> deleteSchedule(@RequestParam Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
