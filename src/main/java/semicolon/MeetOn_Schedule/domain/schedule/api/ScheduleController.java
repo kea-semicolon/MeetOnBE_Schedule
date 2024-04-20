@@ -43,7 +43,7 @@ public class ScheduleController {
      * @param month
      * @return
      */
-    @Operation(summary = "공유 일정 조회", description = "공유 일정 조회 + year, month")
+    @Operation(summary = "공유 일정 조회", description = "공유 일정 조회(year, month)")
     @GetMapping
     public ResponseEntity<ScheduleResponseListDto<List<ScheduleResponseDto>>> getSchedule(@RequestParam Long year,
                                                                                           @RequestParam Long month,
