@@ -50,6 +50,7 @@ class ScheduleServiceTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         request.addHeader("Authorization", "Bearer test-token");
+
         //스케줄 생성
         CreateRequestDto createRequestDto = CreateRequestDto
                 .builder()
